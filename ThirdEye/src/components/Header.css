@@ -1,0 +1,145 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color:rgba(0, 0, 0,0.7); /* CIA blue */
+    color: #fff;
+    /* padding: 10px 0; */
+    padding-top: 25px;
+    height: 100px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+    transition: transform 0.3s ease;
+}
+
+
+ /* .nav-items{
+    color: #f1f0f0;
+    text-decoration: none;
+    font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  margin: 10px;
+}
+
+.nav-items:hover {
+    color: rgb(237, 53, 53); 
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    text-decoration: underline;
+    border-bottom-color: white;
+} */
+
+
+.nav-items {
+    color: #f1f0f0;
+    text-decoration: none;
+    font-family: "Archivo Black", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    margin: 10px;
+    position: relative; /* Add position relative */
+  }
+  
+  .nav-items::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px; /* Height of the underline */
+    bottom: 0;
+    left: 0;
+    background-color: transparent; /* Initial color of the underline */
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+  }
+
+  
+  .nav-items:hover::after {
+    /* color: rgb(219, 8, 8); */
+    background-color: rgb(238, 9, 9); /* Color of the underline on hover */
+  }
+/* .login button {
+    background-color: rgb(247, 246, 246); 
+    color: #181a1c; 
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login button:hover {
+    background-color: red;
+    color: white;
+    font-weight: 600;
+    transform: scale(1.0);
+} */
+
+.login button {
+    background-color: rgb(247, 246, 246); /* CIA gold */
+    color: #181a1c; /* CIA blue */
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.6s ease, transform 0.3s ease;
+}
+
+.login button:hover {
+    background-color: red;
+    color: white;
+    font-weight: 200;
+    /* Lighter gold */
+    /* transform: scale(1.1); Enlarge the button by 10% */
+    /* padding: 12px 22px; Adjust padding to make button larger */
+}
+
+.logout button {
+    background-color: rgb(247, 246, 246); /* CIA gold */
+    color: #181a1c; /* CIA blue */
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.6s ease, transform 0.3s ease;
+}
+
+.logout button:hover {
+    background-color: red;
+    color: white;
+    font-weight: 200;
+    /* Lighter gold */
+    /* transform: scale(1.1); Enlarge the button by 10% */
+    /* padding: 12px 22px; Adjust padding to make button larger */
+}
+
+
+

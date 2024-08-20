@@ -1,0 +1,15 @@
+footer{
+    background-color: rgba(0, 0, 0);
+}
+.items{
+    color: rgb(232, 234, 230);
+    text-decoration: none;
+    font-size: large;
+    margin: 20px;
+}
+.items:hover{
+    color: red;
+    font-size: large;
+    text-decoration: none;
+}
+

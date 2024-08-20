@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Surveillance</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Additional CSS styling for layout */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .button-container button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="container fadeInAnimation">
+            <div class="title slideInAnimation">Real-time Surveillance</div>
+            
+            <div id="camera-grid" class="slideUpAnimation">
+                <div class="camera-feed" id="camera1">
+                    <img src="{{ url_for('video_feed') }}" alt="Camera 1 Feed" style="width: 100%;">
+                </div>
+            </div>
+            
+            <div class="form-container slideUpAnimation">
+                <form id="criminal-form" enctype="multipart/form-data">
+                    <label for="criminal-name">Enter Wanted Criminal's Name:</label><br>
+                    <input type="text" id="criminal-name" name="criminal-name" required><br>
+                    <label for="criminal-photo">Upload Wanted Criminal's Photo:</label><br>
+                    <input type="file" id="criminal-photo" name="criminal-photo" accept="image/*" required><br>
+                    <button type="submit">Submit</button>
+                </form>
+                
+                <label for="delete-criminal-name">Enter Criminal's Name to Delete:</label><br>
+                <input type="text" id="delete-criminal-name" name="delete-criminal-name" required><br>
+                <button onclick="deleteCriminal()">Delete Criminal</button>
+                
+                <div class="button-container">
+                    <div id="camera-setup">
+                        <label for="camera-ip">Enter Camera IP Address:</label><br>
+                        <input type="text" id="camera-ip" name="camera-ip" required><br>
+                        <label for="camera-port">Enter Camera Port:</label><br>
+                        <input type="number" id="camera-port" name="camera-port" required><br>
+                    </div>
+                    <button onclick="addCamera()">Add Camera</button>
+                    <button onclick="removeCamera()">Remove Camera</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#criminal-form').submit(function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                var formData = new FormData($(this)[0]); // Get form data
+                $.ajax({
+                    type: 'POST',
+                    url: '/update_criminal', // Flask route for updating criminal info
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log(response); // Log server response
+                        // Reload the page after successful form submission
+                        location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error); // Log any errors
+                        // Handle errors (e.g., display an error message)
+                    }
+                });
+            });
+        });
+
+        function deleteCriminal() {
+            var criminalName = $('#delete-criminal-name').val(); // Get the criminal name from input field
+            $.ajax({
+                type: 'POST',
+                url: '/delete_criminal', // Flask route for deleting criminal info
+                data: { criminalName: criminalName }, // Send criminal name as data
+                success: function(response) {
+                    console.log(response); // Log server response
+                    // Reload the page after successful deletion
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error(error); // Log any errors
+                    // Handle errors (e.g., display an error message)
+                }
+            });
+        }
+
+        function addCamera() {
+            var cameraIP = $('#camera-ip').val(); // Get the camera IP address from input field
+            var cameraPort = $('#camera-port').val(); // Get the camera port number from input field
+        
+            // Perform validation if needed
+        
+            // Make AJAX request to add camera
+            $.ajax({
+                type: 'POST',
+                url: '/add_camera', // Flask route for adding a camera
+                data: { cameraIP: cameraIP, cameraPort: cameraPort }, // Send camera IP and port as data
+                success: function(response) {
+                    console.log(response); // Log server response
+                    // Handle success (e.g., display a success message)
+                    addRemoveButton(cameraIP, cameraPort); // Call function to add remove button
+                },
+                error: function(xhr, status, error) {
+                    console.error(error); // Log any errors
+                    // Handle errors (e.g., display an error message)
+                }
+            });
+        }
+
+        function addRemoveButton(cameraIP, cameraPort) {
+            // Create a button to remove the camera
+            var removeButton = $('<button>').text('Remove Camera').click(function() {
+                // Make AJAX request to remove camera
+                $.ajax({
+                    type: 'POST',
+                    url: '/remove_camera', // Flask route for removing a camera
+                    data: { cameraIP: cameraIP, cameraPort: cameraPort }, // Send camera IP and port as data
+                    success: function(response) {
+                        console.log(response); // Log server response
+                        // Handle success (e.g., display a success message)
+                        $('#camera-' + cameraIP + '-' + cameraPort).remove(); // Remove camera feed
+                        $(this).remove(); // Remove the remove button
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error); // Log any errors
+                        // Handle errors (e.g., display an error message)
+                    }
+                });
+            });
+
+            // Append the remove button to the camera setup div
+            $('#camera-setup').append(removeButton);
+        }
+
+        function removeCamera() {
+            // Functionality for removing a camera (if needed)
+        }
+    </script>
+</body>
+</html>
